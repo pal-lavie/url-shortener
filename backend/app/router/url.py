@@ -93,13 +93,7 @@ async def redirect_to_original_url(short_code: str, request: Request, db: Sessio
         # If the short code is not found, return a 404 Not Found response
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Short code not found")
     
-    if is_url_expired(url_obj):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="URL has expired")
-    
-    if not is_url_usage_limit_active(url_obj):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="URL usage limit has expired")
-    
-    # Get the client's IP address
+     # Get the client's IP address
     client_ip = request.client.host
     # Get the user-agent
     user_agent = request.headers.get("user-agent")
@@ -114,6 +108,14 @@ async def redirect_to_original_url(short_code: str, request: Request, db: Sessio
     # Add access log data
     queries.add_url_access_log(acess_log=access_log)
 
+    
+    if is_url_expired(url_obj):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="URL has expired")
+    
+    if not is_url_usage_limit_active(url_obj):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="URL usage limit has expired")
+    
+   
         
     if url_obj.url_use_limit and url_obj.remaining_uses > 0:
         redis = await create_redis_pool()

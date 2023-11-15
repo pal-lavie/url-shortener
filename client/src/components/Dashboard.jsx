@@ -109,7 +109,7 @@ const Dashboard = () => {
                             </Button>
                         </TableCell>
                         <TableCell>{url?.url_use_limit ? 'yes' : 'no'}</TableCell>
-                        <TableCell>{url?.remaining_uses || '-'}</TableCell>
+                        <TableCell>{url?.remaining_uses >= 0 ? url?.remaining_uses : '-'}</TableCell>
                         <TableCell>{url?.expiry ? formatDate(url?.expiry) : '-'}</TableCell>
                         <TableCell>{url?.created_at ? formatDate(url?.created_at) : '-'}</TableCell>
                         <TableCell>{url?.is_active ? 'Active' : 'Inactive'}</TableCell>

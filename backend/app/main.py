@@ -21,7 +21,7 @@ app = FastAPI(
 app.include_router(auth_router, prefix=URL_PREFIX, tags=["user-auth"])
 app.include_router(url_router, prefix=URL_PREFIX, tags=["create-short-url"])
 app.include_router(user_router, prefix=URL_PREFIX,tags=["get-user-urls"])
-app.include_router(deployment_router, URL_PREFIX, tage=["deploy"])
+app.include_router(deployment_router, prefix=URL_PREFIX, tags=["deploy"])
 
 # Enable CORS for all origins
 app.add_middleware(
