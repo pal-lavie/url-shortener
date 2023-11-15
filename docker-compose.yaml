@@ -51,18 +51,18 @@ services:
       - mysql_network
       - frontend_network
 
-  deployment:
+  deployment_service:
     build:
       context: ./deployment
       dockerfile: ./Dockerfile
-    #command: bash -c "cd app/database && alembic upgrade head && cd ../.. && python app/main.py"
     restart: always
     ports:
       - "8080:8080"
+    depends_on:
+      - backend
     volumes:
-      - deployment_data:/app/data
-    networks:
-      - backend_network
+      - ./deployment_data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   mysql_network:
