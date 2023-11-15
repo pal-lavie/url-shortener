@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth.auth import auth_router
 from app.router.url import url_router
 from app.router.user import user_router
-from app.router.deploy import deployment_router
 from app.config.config import settings
 from app.auth.security import SecurityUtils
 from app.models.user import User
@@ -21,7 +20,6 @@ app = FastAPI(
 app.include_router(auth_router, prefix=URL_PREFIX, tags=["user-auth"])
 app.include_router(url_router, prefix=URL_PREFIX, tags=["create-short-url"])
 app.include_router(user_router, prefix=URL_PREFIX,tags=["get-user-urls"])
-app.include_router(deployment_router, prefix=URL_PREFIX, tags=["deploy"])
 
 # Enable CORS for all origins
 app.add_middleware(
