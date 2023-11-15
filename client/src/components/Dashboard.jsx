@@ -108,7 +108,7 @@ const Dashboard = () => {
                                 <FileCopyOutlinedIcon />
                             </Button>
                         </TableCell>
-                        <TableCell>{url?.url_use_limit || '-'}</TableCell>
+                        <TableCell>{url?.url_use_limit ? 'yes' : 'no'}</TableCell>
                         <TableCell>{url?.remaining_uses || '-'}</TableCell>
                         <TableCell>{url?.expiry ? formatDate(url?.expiry) : '-'}</TableCell>
                         <TableCell>{url?.created_at ? formatDate(url?.created_at) : '-'}</TableCell>
