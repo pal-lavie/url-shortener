@@ -1,5 +1,7 @@
 
 import logging
+import secrets
+from hashlib import md5
 from typing import Optional, cast, Dict, Any
 
 
@@ -82,3 +84,9 @@ class SecurityUtils:
            
 
         return payload
+    
+
+    @staticmethod
+    def create_api_key() -> str:
+        """Create a random API key."""
+        return md5(secrets.token_bytes(32)).hexdigest()

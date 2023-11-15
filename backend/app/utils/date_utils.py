@@ -10,8 +10,8 @@ def get_created_at(timezone=timezone):
     return current_utc_time.replace(tzinfo=pytz.utc)
    
 
-def get_datetime_now(timezone='UTC'):
-    tz = pytz.timezone(timezone)
-    utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
-    t = utc_now.astimezone(tz)
-    return t
+# def get_datetime_now(timezone='UTC'):
+#     tz = pytz.timezone(timezone)
+#     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
+#     t = utc_now.astimezone(tz)
+#     return t

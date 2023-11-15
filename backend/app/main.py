@@ -1,27 +1,27 @@
 from fastapi import FastAPI, Depends
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
-from typing import Dict, Any
 
 
 from app.auth.auth import auth_router
 from app.router.url import url_router
 from app.router.user import user_router
+from app.router.deploy import deployment_router
 from app.config.config import settings
 from app.auth.security import SecurityUtils
 from app.models.user import User
 # from app.database.database import engine, get_db
 
+URL_PREFIX = "/url-shortener"
 app = FastAPI(
     debug=settings.DEBUG,
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
 )
-app.include_router(auth_router, prefix="/url-shortener", tags=["user-auth"])
-app.include_router(url_router, prefix="/url-shortener", tags=["create-short-url"])
-app.include_router(user_router, prefix="/url-shortener",tags=["get-user-urls"])
+app.include_router(auth_router, prefix=URL_PREFIX, tags=["user-auth"])
+app.include_router(url_router, prefix=URL_PREFIX, tags=["create-short-url"])
+app.include_router(user_router, prefix=URL_PREFIX,tags=["get-user-urls"])
+app.include_router(deployment_router, URL_PREFIX, tage=["deploy"])
 
 # Enable CORS for all origins
 app.add_middleware(

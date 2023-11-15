@@ -80,3 +80,12 @@ def generate_access_token(
         },
     )
     
+@auth_router.post(
+        "/api-key",
+        response_model=str,
+        status_code=status.HTTP_201_CREATED,
+        
+    )
+def generate_new_api_key(self, current_user: dict = Depends(SecurityUtils.verify_token)) -> User:
+    """Create a new API key for current user."""
+    return  SecurityUtils.create_api_key()

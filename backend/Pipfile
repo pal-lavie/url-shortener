@@ -19,6 +19,8 @@ pytz = "*"
 alembic = "*"
 bcrypt = "==4.0.1"
 orjson = "==3.8.4"
+docker = "*"
+aioredis = "*"
 
 [dev-packages]
 

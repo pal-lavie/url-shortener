@@ -21,6 +21,13 @@ function App() {
     }
   }, [])
 
+  const logoutUser = () => {
+      localStorage.clear();
+      setAccessToken('');
+      navigate(LOGIN_ROUTE)
+  }
+
+
   return (
    <Routes>
       <Route path="/" element={<Login />} />

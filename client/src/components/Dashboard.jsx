@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import CreateShortURL from "./CreateShortURL";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
-import { URL_LOGS } from "../routes";
+import { LOGIN_ROUTE, URL_LOGS } from "../routes";
 import { apiJSONType } from '../apiHandler';
 import { CREATE_SHORT_URL, GET_ALL_URLS } from "../api";
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+
 import dayjs from "dayjs";
 import { formatDate } from "../utils";
 
@@ -28,9 +30,10 @@ const Dashboard = () => {
         }
     }
     const [openCreateURLDialog, setOpenCreateURLDialog] = useState(false);
-    const { setSelectedURLID } = useAppContext();
+    const { setAccessToken, setSelectedURLID } = useAppContext();
     const [urls, setURLs] = useState([]);
     const navigate = useNavigate();
+    const [isCopied, setIsCopied] = useState(false);
 
     const onCreateShortURL = async (urlDetails) => {
         const payload = {
@@ -63,6 +66,16 @@ const Dashboard = () => {
         navigate(URL_LOGS)
     }
 
+    const copyToClipboard = async (event, text) => {
+        event.stopPropagation();
+        try {
+          await navigator.clipboard.writeText(text);
+          setIsCopied(true);
+        } catch (err) {
+          console.error('Unable to copy to clipboard', err);
+        }
+    };
+
     useEffect(() => {
         const token = localStorage.getItem('access_token');
         console.log({token})
@@ -78,23 +91,29 @@ const Dashboard = () => {
                 <TableHead>
                     <TableCell>Original URL</TableCell>
                     <TableCell>Short URL</TableCell>
-                    <TableCell>URL Use Limit</TableCell>
+                    <TableCell>URL Usage Limit</TableCell>
+                    <TableCell>Remaining Uses</TableCell>
                     <TableCell>Expiry Date</TableCell>
                     <TableCell>Created At</TableCell>
                     <TableCell>Status</TableCell>
-                    <TableCell>Views</TableCell>
+                    {/* <TableCell>Views</TableCell> */}
                     <TableCell></TableCell>
                 </TableHead>
                 <TableBody>
                     {urls.map((url) => (
                     <TableRow sx={styles.clickableRow} onClick={() => showURLDetails(url?.id)}>
                         <TableCell>{url?.original_url}</TableCell>
-                        <TableCell>{url?.short_code}</TableCell>
+                        <TableCell><a>{url?.short_code}</a>
+                            <Button onClick={(event) => copyToClipboard(event, url?.short_code)}>
+                                <FileCopyOutlinedIcon />
+                            </Button>
+                        </TableCell>
+                        <TableCell>{url?.url_use_limit || '-'}</TableCell>
                         <TableCell>{url?.remaining_uses || '-'}</TableCell>
                         <TableCell>{url?.expiry ? formatDate(url?.expiry) : '-'}</TableCell>
                         <TableCell>{url?.created_at ? formatDate(url?.created_at) : '-'}</TableCell>
                         <TableCell>{url?.is_active ? 'Active' : 'Inactive'}</TableCell>
-                        <TableCell>{url?.views}</TableCell>
+                        {/* <TableCell>{url?.views}</TableCell> */}
                         <TableCell><Button><ChevronRightRoundedIcon /></Button></TableCell>
                     </TableRow>))}
                 </TableBody>

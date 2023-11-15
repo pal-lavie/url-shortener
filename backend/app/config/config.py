@@ -10,5 +10,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     DATABASE_URL: str = "mysql+pymysql://user:pass@mysql:3306"
 
-
+    DOCKER_IMAGE_BACKEND = "url-shortener-backend"
+    DOCKER_CONTAINER_BACKEND = "url-shortener-backend-1"
+    DOCKER_CONTAINER_BACKEND_PORT = "8000"
 settings = Settings()
