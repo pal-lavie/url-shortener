@@ -35,8 +35,6 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 # clone the project
 git clone https://github.com/pal-lavie/url-shortener.git
 
-cd url-shortener/backend
-
 # Run and build project
 docker-compose build 
 docker-compose up -d
